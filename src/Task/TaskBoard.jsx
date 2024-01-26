@@ -1,5 +1,6 @@
 import { Fragment } from "react"
 import Searchbox from "./Searchbox"
+import TaskActions from "./TaskActions"
 
 const TaskBoard = () => {
     return (
@@ -16,9 +17,10 @@ const TaskBoard = () => {
                             <div className="flex items-center space-x-5">
                                 {/* start searchbar */}
                                 <Searchbox />
-                                {/* Ends searchbar */}
-                                <button className="rounded-md bg-blue-500 px-3.5 py-2.5 text-sm font-semibold">Add Task</button>
-                                <button className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold">Delete All</button>
+
+                                {/* Task Actions */}
+                                <TaskActions />
+
                             </div>
                         </div>
                         <div className="overflow-auto">
