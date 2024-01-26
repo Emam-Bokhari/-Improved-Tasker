@@ -1,12 +1,19 @@
-import { Fragment } from "react"
+import { Fragment, useState } from "react"
 import Searchbox from "./Searchbox"
 import TaskActions from "./TaskActions"
 import TaskList from "./TaskList"
+import AddTaskModal from "./AddTaskModal"
 
 const TaskBoard = () => {
+
+    const [showAddTaskModal, setShowAddTaskModal] = useState(false)
+
+
+
     return (
         <Fragment>
 
+            {showAddTaskModal && <AddTaskModal />}
             <section className="mb-20" id="tasks">
 
                 <div className="container">
@@ -20,7 +27,7 @@ const TaskBoard = () => {
                                 <Searchbox />
 
                                 {/* Task Actions */}
-                                <TaskActions />
+                                <TaskActions onAddTaskModal={()=>setShowAddTaskModal(true)} />
 
                             </div>
                         </div>
