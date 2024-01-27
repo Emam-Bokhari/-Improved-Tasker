@@ -20,8 +20,10 @@ const TaskBoard = () => {
 
     const [showAddTaskModal, setShowAddTaskModal] = useState(false)
 
+    const allTasks = tasks
+
     // add new task
-    function handleAddNewTask(newTask){
+    function handleAddNewTask(newTask) {
         // console.log(newTask)
 
         setTasks([
@@ -31,16 +33,30 @@ const TaskBoard = () => {
         setShowAddTaskModal(false)
     }
 
+    // search task
+    function handleSearch(searchTerm) {
+        // console.log(searchTerm)
+        const filteredTask = tasks.filter(task => task.title.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()))
+
+
+        if (filteredTask) {
+            setTasks([
+                ...filteredTask
+            ])
+        }
+
+    }
+
 
 
     return (
         <Fragment>
 
-            <TaskContext.Provider value={{tasks,setTasks}}>
+            <TaskContext.Provider value={{ tasks, setTasks }}>
 
                 {showAddTaskModal && <AddTaskModal
-                onAddTask={handleAddNewTask}
-                 onCancelAddTaskModal={() => setShowAddTaskModal(false)} />}
+                    onAddTask={handleAddNewTask}
+                    onCancelAddTaskModal={() => setShowAddTaskModal(false)} />}
                 <section className="mb-20" id="tasks">
 
                     <div className="container">
@@ -51,7 +67,7 @@ const TaskBoard = () => {
                                 <h2 className="text-2xl font-semibold max-sm:mb-4">Your Tasks</h2>
                                 <div className="flex items-center space-x-5">
                                     {/* start searchbar */}
-                                    <Searchbox />
+                                    <Searchbox onSearchTask={handleSearch} />
 
                                     {/* Task Actions */}
                                     <TaskActions onAddTaskModal={() => setShowAddTaskModal(true)} />
