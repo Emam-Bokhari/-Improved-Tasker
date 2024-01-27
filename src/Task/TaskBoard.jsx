@@ -4,6 +4,7 @@ import TaskActions from "./TaskActions"
 import TaskList from "./TaskList"
 import AddTaskModal from "./AddTaskModal"
 import { TaskContext } from "../context"
+import EmptyTask from "./EmptyTask"
 
 const TaskBoard = () => {
 
@@ -75,7 +76,12 @@ const TaskBoard = () => {
                                 </div>
                             </div>
                             {/* Tasklist */}
-                            <TaskList />
+                            {tasks.length > 0
+                                ?
+                                <TaskList />
+                                :
+                                <EmptyTask />}
+
                         </div>
                     </div>
                 </section>
