@@ -64,6 +64,18 @@ const TaskBoard = () => {
     }
 
 
+    function handleDeleteAllTask() {
+
+        const confirmDeleteAll = window.confirm("Are you sure you want to delete all tasks?")
+
+        if (confirmDeleteAll) {
+            tasks.length = 0
+            setTasks([...tasks])
+        }
+
+    }
+
+
 
     return (
         <Fragment>
@@ -86,7 +98,9 @@ const TaskBoard = () => {
                                     <Searchbox onSearchTask={handleSearch} />
 
                                     {/* Task Actions */}
-                                    <TaskActions onAddTaskModal={() => setShowAddTaskModal(true)} />
+                                    <TaskActions
+                                        onDeleteAllTask={handleDeleteAllTask}
+                                        onAddTaskModal={() => setShowAddTaskModal(true)} />
 
                                 </div>
                             </div>
