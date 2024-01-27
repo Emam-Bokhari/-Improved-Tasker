@@ -4,7 +4,7 @@ import { FaRegStar } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 
 const TaskList = () => {
-    const { tasks,handleDeleteTask,handleEditTask,handleFavourite } = useContext(TaskContext)
+    const { state,handleDeleteTask,handleEditTask,handleFavourite } = useContext(TaskContext)
     // console.log(tasks)
     return (
         <Fragment>
@@ -22,7 +22,7 @@ const TaskList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {tasks.map((task) => (
+                        {state.tasks.map((task) => (
                             <tr key={task.id} className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
                                 <td>
                                     <button onClick={() => handleFavourite(task.id)} >

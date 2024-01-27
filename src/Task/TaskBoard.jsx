@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react"
+import { Fragment, useReducer, useState } from "react"
 import Searchbox from "./Searchbox"
 import TaskActions from "./TaskActions"
 import TaskList from "./TaskList"
@@ -7,19 +7,21 @@ import { TaskContext } from "../context"
 import EmptyTask from "./EmptyTask"
 import { toast } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
+import { initialState, taskReducer } from "../reducers/taskReducer"
 
 const TaskBoard = () => {
 
-    const defaultTask = {
-        id: crypto.randomUUID(),
-        title: "Integration API",
-        description: "Connect an existing API to a third-party database using secure methods and handle data exchange efficiently.",
-        tags: ['Web', 'Python', 'Api'],
-        priority: "High",
-        isFavourite: false
-    }
+    // const defaultTask = {
+    //     id: crypto.randomUUID(),
+    //     title: "Integration API",
+    //     description: "Connect an existing API to a third-party database using secure methods and handle data exchange efficiently.",
+    //     tags: ['Web', 'Python', 'Api'],
+    //     priority: "High",
+    //     isFavourite: false
+    // }
 
-    const [tasks, setTasks] = useState([defaultTask])
+    const [state, dispatch] = useReducer(taskReducer, initialState)
+
 
     const [showAddTaskModal, setShowAddTaskModal] = useState(false)
 
@@ -31,20 +33,17 @@ const TaskBoard = () => {
     function handleAddNewTask(newTask, isAdd) {
         // console.log(newTask)
         if (isAdd) {
-            setTasks([
-                ...tasks,
-                newTask
-            ])
+            dispatch({
+                type:"Add_Task",
+                payload:newTask 
+            })
             toast.success('Task create successfully')
         } else {
-            setTasks(
-                tasks.map((task) => {
-                    if (task.id === newTask.id) {
-                        return newTask
-                    }
-                    return task
-                })
-            )
+
+            dispatch({
+                type:"Edit_Task",
+                payload:newTask 
+            })
             toast.success('Task edit successfully')
         }
 
@@ -70,15 +69,11 @@ const TaskBoard = () => {
 
     // search task
     function handleSearch(searchTerm) {
-        // console.log(searchTerm)
-        const filteredTask = tasks.filter(task => task.title.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase()))
 
-
-        if (filteredTask) {
-            setTasks([
-                ...filteredTask
-            ])
-        }
+        dispatch({
+            type:"Search_Task",
+            payload:searchTerm 
+        })
 
     }
 
@@ -89,9 +84,11 @@ const TaskBoard = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this task?")
 
         if (confirmDelete) {
-            const afterDeleteTask = tasks.filter(task => task.id !== taskId)
+            dispatch({
+                type:"Delete_Task",
+                payload:taskId 
+            })
 
-            setTasks(afterDeleteTask)
             toast.success("Successfully delete this task")
         }
 
@@ -104,8 +101,10 @@ const TaskBoard = () => {
         const confirmDeleteAll = window.confirm("Are you sure you want to delete all tasks?")
 
         if (confirmDeleteAll) {
-            tasks.length = 0
-            setTasks([...tasks])
+            dispatch({
+                type:"Delete_All_Tasks"
+            })
+
             toast.success("Successfully delete all tasks!")
         }
 
@@ -115,13 +114,10 @@ const TaskBoard = () => {
     function handleFavourite(taskId) {
         // console.log(taskId)
 
-        const taskIndex = tasks.findIndex(task => task.id === taskId)
-
-        const allTasks = [...tasks]
-
-        allTasks[taskIndex].isFavourite = !allTasks[taskIndex].isFavourite
-
-        setTasks(allTasks)
+        dispatch({
+            type:"Favourite_Task",
+            payload:taskId 
+        })
 
     }
 
@@ -133,9 +129,10 @@ const TaskBoard = () => {
         <Fragment>
 
             <TaskContext.Provider value={{
-                tasks, setTasks, taskToUpdate, handleDeleteTask,
+                taskToUpdate, handleDeleteTask,
                 handleEditTask, handleFavourite, handleSearch,
-                handleDeleteAllTask, handleAddNewTask, handleCloseModal
+                handleDeleteAllTask, handleAddNewTask, handleCloseModal,
+                state,dispatch
             }}>
 
                 {showAddTaskModal && <AddTaskModal />}
@@ -158,7 +155,7 @@ const TaskBoard = () => {
                                 </div>
                             </div>
                             {/* Tasklist */}
-                            {tasks.length > 0
+                            {state.tasks.length > 0
                                 ?
                                 <TaskList />
                                 :
