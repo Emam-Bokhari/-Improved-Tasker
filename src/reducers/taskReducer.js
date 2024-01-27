@@ -1,5 +1,12 @@
 const initialState = {
-    tasks: []
+    tasks: [{
+        id: crypto.randomUUID(),
+        title: "Integration API",
+        description: "Connect an existing API to a third-party database using secure methods and handle data exchange efficiently.",
+        tags: ['Web', 'Python', 'Api'],
+        priority: "High",
+        isFavourite: false
+    }]
 }
 
 const taskReducer = (state, action) => {
