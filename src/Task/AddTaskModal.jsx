@@ -37,11 +37,11 @@ const AddTaskModal = () => {
     }
 
     // form validation
-
     function formValidation() {
-        if (!task.title || !task.description || !task.tags || !task.priority) {
+        if (!task.title || !task.description || task.tags.length === 0 || !task.priority) {
             setValidationError(true);
             return false;
+            
         } else {
             setValidationError(false);
             return true;
