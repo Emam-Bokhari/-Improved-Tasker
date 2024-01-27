@@ -1,12 +1,15 @@
-import { Fragment, useState } from "react"
+import { Fragment, useContext, useState } from "react"
 import { toast } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
+import { TaskContext } from "../context";
 
 const AddTaskModal = ({ onCancelAddTaskModal, onAddTask }) => {
 
     const [validationError, setValidationError] = useState(false)
 
-    const [task, setTask] = useState({
+    const { taskToUpdate } = useContext(TaskContext)
+
+    const [task, setTask] = useState(taskToUpdate || {
         id: crypto.randomUUID(),
         title: "",
         description: "",
@@ -14,6 +17,9 @@ const AddTaskModal = ({ onCancelAddTaskModal, onAddTask }) => {
         priority: "",
         isFavourite: false
     })
+
+    const [isAdd, setIsAdd] = useState(Object.is(taskToUpdate, null))
+
 
     function handleChange(event) {
         const name = event.target.name
@@ -31,8 +37,8 @@ const AddTaskModal = ({ onCancelAddTaskModal, onAddTask }) => {
     }
 
     // form validation
-    
-     function formValidation() {
+
+    function formValidation() {
         if (!task.title || !task.description || !task.tags || !task.priority) {
             setValidationError(true);
             return false;
@@ -44,12 +50,14 @@ const AddTaskModal = ({ onCancelAddTaskModal, onAddTask }) => {
 
     function handleAddTask() {
         if (formValidation()) {
-            onAddTask(task);
-            toast.success('Task create successfully')
+            onAddTask(task, isAdd);
+
         } else {
             toast.error("Please fill in all input fields!");
         }
     }
+
+
 
     return (
         <Fragment >
@@ -65,7 +73,10 @@ const AddTaskModal = ({ onCancelAddTaskModal, onAddTask }) => {
                 <h2
                     className="mb-9 text-center text-2xl font-bold text-white lg:mb-11 lg:text-[28px]"
                 >
-                    Add New Task
+                    {isAdd ?
+                        "Add New Task"
+                        :
+                        "Edit Task"}
                 </h2>
 
                 {/* inputs */}
@@ -140,7 +151,10 @@ const AddTaskModal = ({ onCancelAddTaskModal, onAddTask }) => {
                         type="submit"
                         className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
                     >
-                        Create new Task
+                        {isAdd ?
+                            "Create new Task"
+                            :
+                            "Edit Task"}
                     </button>
 
                     <button

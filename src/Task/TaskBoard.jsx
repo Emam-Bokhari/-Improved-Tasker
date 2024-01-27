@@ -5,6 +5,8 @@ import TaskList from "./TaskList"
 import AddTaskModal from "./AddTaskModal"
 import { TaskContext } from "../context"
 import EmptyTask from "./EmptyTask"
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 
 const TaskBoard = () => {
 
@@ -23,18 +25,48 @@ const TaskBoard = () => {
 
     const [isFavourite, setIsFavourite] = useState(false)
 
-    const allTasks = tasks
+    const [taskToUpdate, setTaskToUpdate] = useState(null)
 
-    // add new task
-    function handleAddNewTask(newTask) {
+    // add new task and edit task
+    function handleAddNewTask(newTask, isAdd) {
         // console.log(newTask)
+        if (isAdd) {
+            setTasks([
+                ...tasks,
+                newTask
+            ])
+            toast.success('Task create successfully')
+        } else {
+            setTasks(
+                tasks.map((task) => {
+                    if (task.id === newTask.id) {
+                        return newTask
+                    }
+                    return task
+                })
+                )
+                toast.success('Task edit successfully')
+        }
 
-        setTasks([
-            ...tasks,
-            newTask
-        ])
+
         setShowAddTaskModal(false)
+        
     }
+
+    // edit task
+    function handleEditTask(task) {
+        // console.log(task)
+        setTaskToUpdate(task)
+        setShowAddTaskModal(true)
+
+    }
+
+    function handleCloseModal() {
+        setShowAddTaskModal(false)
+        setTaskToUpdate(null)
+    }
+
+
 
     // search task
     function handleSearch(searchTerm) {
@@ -60,6 +92,7 @@ const TaskBoard = () => {
             const afterDeleteTask = tasks.filter(task => task.id !== taskId)
 
             setTasks(afterDeleteTask)
+            toast.success("Successfully delete this task")
         }
 
 
@@ -73,11 +106,12 @@ const TaskBoard = () => {
         if (confirmDeleteAll) {
             tasks.length = 0
             setTasks([...tasks])
+            toast.success("Successfully delete all tasks!")
         }
 
     }
 
-    // favourite and un favourite
+    // favourite and unfavourite
     function handleFavourite(taskId) {
         // console.log(taskId)
 
@@ -93,14 +127,16 @@ const TaskBoard = () => {
 
 
 
+
+
     return (
         <Fragment>
 
-            <TaskContext.Provider value={{ tasks, setTasks }}>
+            <TaskContext.Provider value={{ tasks, setTasks, taskToUpdate }}>
 
                 {showAddTaskModal && <AddTaskModal
                     onAddTask={handleAddNewTask}
-                    onCancelAddTaskModal={() => setShowAddTaskModal(false)} />}
+                    onCancelAddTaskModal={handleCloseModal} />}
                 <section className="mb-20" id="tasks">
 
                     <div className="container">
@@ -124,8 +160,10 @@ const TaskBoard = () => {
                             {tasks.length > 0
                                 ?
                                 <TaskList
+                                    onEditTask={handleEditTask}
                                     onFavourite={handleFavourite}
-                                    onDeleteTask={handleDeleteTask} />
+                                    onDeleteTask={handleDeleteTask}
+                                />
                                 :
                                 <EmptyTask />}
 

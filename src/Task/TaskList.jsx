@@ -3,7 +3,7 @@ import { TaskContext } from "../context"
 import { FaRegStar } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 
-const TaskList = ({ onDeleteTask, onFavourite }) => {
+const TaskList = ({ onDeleteTask, onFavourite, onEditTask }) => {
     const { tasks } = useContext(TaskContext)
     // console.log(tasks)
     return (
@@ -53,7 +53,9 @@ const TaskList = ({ onDeleteTask, onFavourite }) => {
                                         <button
                                             onClick={() => onDeleteTask(task.id)}
                                             className="text-red-500">Delete</button>
-                                        <button className="text-blue-500">Edit</button>
+                                        <button
+                                            onClick={() => onEditTask(task)}
+                                            className="text-blue-500">Edit</button>
                                     </div>
                                 </td>
                             </tr>
