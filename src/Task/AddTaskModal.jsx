@@ -1,4 +1,6 @@
 import { Fragment, useState } from "react"
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddTaskModal = ({ onCancelAddTaskModal, onAddTask }) => {
 
@@ -43,9 +45,9 @@ const AddTaskModal = ({ onCancelAddTaskModal, onAddTask }) => {
     function handleAddTask() {
         if (formValidation()) {
             onAddTask(task);
-            alert('Task create successfully')
+            toast.success('Task create successfully')
         } else {
-            alert("Please fill in all input fields!");
+            toast.error("Please fill in all input fields!");
         }
     }
 
