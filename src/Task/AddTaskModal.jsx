@@ -3,11 +3,11 @@ import { toast } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import { TaskContext } from "../context";
 
-const AddTaskModal = ({ onCancelAddTaskModal, onAddTask }) => {
+const AddTaskModal = () => {
 
     const [validationError, setValidationError] = useState(false)
 
-    const { taskToUpdate } = useContext(TaskContext)
+    const { taskToUpdate, handleAddNewTask, handleCloseModal } = useContext(TaskContext)
 
     const [task, setTask] = useState(taskToUpdate || {
         id: crypto.randomUUID(),
@@ -50,7 +50,7 @@ const AddTaskModal = ({ onCancelAddTaskModal, onAddTask }) => {
 
     function handleAddTask() {
         if (formValidation()) {
-            onAddTask(task, isAdd);
+            handleAddNewTask(task, isAdd);
 
         } else {
             toast.error("Please fill in all input fields!");
@@ -158,7 +158,7 @@ const AddTaskModal = ({ onCancelAddTaskModal, onAddTask }) => {
                     </button>
 
                     <button
-                        onClick={onCancelAddTaskModal}
+                        onClick={handleCloseModal}
                         type="submit"
                         className="rounded bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80"
                     >

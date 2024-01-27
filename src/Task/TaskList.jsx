@@ -3,8 +3,8 @@ import { TaskContext } from "../context"
 import { FaRegStar } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 
-const TaskList = ({ onDeleteTask, onFavourite, onEditTask }) => {
-    const { tasks } = useContext(TaskContext)
+const TaskList = () => {
+    const { tasks,handleDeleteTask,handleEditTask,handleFavourite } = useContext(TaskContext)
     // console.log(tasks)
     return (
         <Fragment>
@@ -25,7 +25,7 @@ const TaskList = ({ onDeleteTask, onFavourite, onEditTask }) => {
                         {tasks.map((task) => (
                             <tr key={task.id} className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
                                 <td>
-                                    <button onClick={() => onFavourite(task.id)} >
+                                    <button onClick={() => handleFavourite(task.id)} >
                                         {task.isFavourite ? <FaStar className="text-xl text-yellow-500" /> : <FaRegStar className="text-xl " />}
                                     </button>
                                 </td>
@@ -51,10 +51,10 @@ const TaskList = ({ onDeleteTask, onFavourite, onEditTask }) => {
                                 <td>
                                     <div className="flex items-center justify-center space-x-3">
                                         <button
-                                            onClick={() => onDeleteTask(task.id)}
+                                            onClick={()=>handleDeleteTask(task.id)}
                                             className="text-red-500">Delete</button>
                                         <button
-                                            onClick={() => onEditTask(task)}
+                                            onClick={() => handleEditTask(task)}
                                             className="text-blue-500">Edit</button>
                                     </div>
                                 </td>

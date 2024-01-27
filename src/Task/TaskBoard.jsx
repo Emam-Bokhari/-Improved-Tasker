@@ -44,13 +44,13 @@ const TaskBoard = () => {
                     }
                     return task
                 })
-                )
-                toast.success('Task edit successfully')
+            )
+            toast.success('Task edit successfully')
         }
 
 
         setShowAddTaskModal(false)
-        
+
     }
 
     // edit task
@@ -132,11 +132,13 @@ const TaskBoard = () => {
     return (
         <Fragment>
 
-            <TaskContext.Provider value={{ tasks, setTasks, taskToUpdate }}>
+            <TaskContext.Provider value={{
+                tasks, setTasks, taskToUpdate, handleDeleteTask,
+                handleEditTask, handleFavourite, handleSearch,
+                handleDeleteAllTask, handleAddNewTask, handleCloseModal
+            }}>
 
-                {showAddTaskModal && <AddTaskModal
-                    onAddTask={handleAddNewTask}
-                    onCancelAddTaskModal={handleCloseModal} />}
+                {showAddTaskModal && <AddTaskModal />}
                 <section className="mb-20" id="tasks">
 
                     <div className="container">
@@ -147,11 +149,10 @@ const TaskBoard = () => {
                                 <h2 className="text-2xl font-semibold max-sm:mb-4">Your Tasks</h2>
                                 <div className="flex items-center space-x-5">
                                     {/* start searchbar */}
-                                    <Searchbox onSearchTask={handleSearch} />
+                                    <Searchbox />
 
                                     {/* Task Actions */}
                                     <TaskActions
-                                        onDeleteAllTask={handleDeleteAllTask}
                                         onAddTaskModal={() => setShowAddTaskModal(true)} />
 
                                 </div>
@@ -159,11 +160,7 @@ const TaskBoard = () => {
                             {/* Tasklist */}
                             {tasks.length > 0
                                 ?
-                                <TaskList
-                                    onEditTask={handleEditTask}
-                                    onFavourite={handleFavourite}
-                                    onDeleteTask={handleDeleteTask}
-                                />
+                                <TaskList />
                                 :
                                 <EmptyTask />}
 

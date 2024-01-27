@@ -1,13 +1,16 @@
-import { Fragment, useState } from "react"
+import { Fragment, useContext, useState } from "react"
+import { TaskContext } from "../context"
 
-const Searchbox = ({onSearchTask}) => {
+const Searchbox = () => {
     const [searchTerm, setSearchTerm] = useState("")
 
+    const { handleSearch } = useContext(TaskContext)
+
     // console.log(searchTerm)
-    function handleSearchTask(event){
+    function handleSearchTask(event) {
         event.preventDefault()
         // console.log(searchTerm)
-        onSearchTask(searchTerm)
+        handleSearch(searchTerm)
     }
 
 
@@ -24,8 +27,8 @@ const Searchbox = ({onSearchTask}) => {
                             className="z-20 block w-full bg-gray-800 px-4 py-2 pr-10 focus:outline-none" placeholder="Search Task"
                             required />
                         <button
-                        onClick={handleSearchTask}
-                        type="submit" className="absolute right-2 top-0 h-full rounded-e-lg text-white md:right-4">
+                            onClick={handleSearchTask}
+                            type="submit" className="absolute right-2 top-0 h-full rounded-e-lg text-white md:right-4">
                             <svg className="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 20 20">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
