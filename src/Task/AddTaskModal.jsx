@@ -1,6 +1,8 @@
 import { Fragment, useState } from "react"
 
-const AddTaskModal = ({ onCancelAddTaskModal,onAddTask }) => {
+const AddTaskModal = ({ onCancelAddTaskModal, onAddTask }) => {
+
+    const [validationError, setValidationError] = useState(false)
 
     const [task, setTask] = useState({
         id: crypto.randomUUID(),
@@ -11,22 +13,41 @@ const AddTaskModal = ({ onCancelAddTaskModal,onAddTask }) => {
         isFavourite: false
     })
 
-    function handleChange(event){
-        const name=event.target.name 
-        let value=event.target.value 
+    function handleChange(event) {
+        const name = event.target.name
+        let value = event.target.value
         // console.log(name,value)
 
-        if(name==='tags'){
-            value=value.split(',')
+        if (name === 'tags') {
+            value = value.split(',')
         }
 
         setTask({
             ...task,
-            [name]:value
+            [name]: value
         })
     }
 
-    // console.log(task)
+    // form validation
+    
+     function formValidation() {
+        if (!task.title || !task.description || !task.tags || !task.priority) {
+            setValidationError(true);
+            return false;
+        } else {
+            setValidationError(false);
+            return true;
+        }
+    }
+
+    function handleAddTask() {
+        if (formValidation()) {
+            onAddTask(task);
+            alert('Task create successfully')
+        } else {
+            alert("Please fill in all input fields!");
+        }
+    }
 
     return (
         <Fragment >
@@ -113,7 +134,7 @@ const AddTaskModal = ({ onCancelAddTaskModal,onAddTask }) => {
                 <div className="mt-16 flex justify-center lg:mt-20 md:gap-5 lg:gap-10">
 
                     <button
-                    onClick={()=>onAddTask(task)}
+                        onClick={handleAddTask}
                         type="submit"
                         className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
                     >
