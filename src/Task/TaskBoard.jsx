@@ -21,6 +21,8 @@ const TaskBoard = () => {
 
     const [showAddTaskModal, setShowAddTaskModal] = useState(false)
 
+    const [isFavourite, setIsFavourite] = useState(false)
+
     const allTasks = tasks
 
     // add new task
@@ -48,7 +50,7 @@ const TaskBoard = () => {
 
     }
 
-    // delete task
+    // delete a task
     function handleDeleteTask(taskId) {
         // console.log(taskId)
 
@@ -63,7 +65,7 @@ const TaskBoard = () => {
 
     }
 
-
+    // delete all task
     function handleDeleteAllTask() {
 
         const confirmDeleteAll = window.confirm("Are you sure you want to delete all tasks?")
@@ -72,6 +74,20 @@ const TaskBoard = () => {
             tasks.length = 0
             setTasks([...tasks])
         }
+
+    }
+
+    // favourite and un favourite
+    function handleFavourite(taskId) {
+        // console.log(taskId)
+
+        const taskIndex = tasks.findIndex(task => task.id === taskId)
+
+        const allTasks = [...tasks]
+
+        allTasks[taskIndex].isFavourite = !allTasks[taskIndex].isFavourite
+
+        setTasks(allTasks)
 
     }
 
@@ -107,7 +123,9 @@ const TaskBoard = () => {
                             {/* Tasklist */}
                             {tasks.length > 0
                                 ?
-                                <TaskList onDeleteTask={handleDeleteTask} />
+                                <TaskList
+                                    onFavourite={handleFavourite}
+                                    onDeleteTask={handleDeleteTask} />
                                 :
                                 <EmptyTask />}
 

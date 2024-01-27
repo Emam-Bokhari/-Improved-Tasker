@@ -3,7 +3,7 @@ import { TaskContext } from "../context"
 import { FaRegStar } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 
-const TaskList = ({onDeleteTask}) => {
+const TaskList = ({ onDeleteTask, onFavourite }) => {
     const { tasks } = useContext(TaskContext)
     // console.log(tasks)
     return (
@@ -24,7 +24,11 @@ const TaskList = ({onDeleteTask}) => {
                     <tbody>
                         {tasks.map((task) => (
                             <tr key={task.id} className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
-                                <td>{task.isFavourite ? <FaStar className="text-xl text-yellow-500" /> : <FaRegStar className="text-xl " />}</td>
+                                <td>
+                                    <button onClick={() => onFavourite(task.id)} >
+                                        {task.isFavourite ? <FaStar className="text-xl text-yellow-500" /> : <FaRegStar className="text-xl " />}
+                                    </button>
+                                </td>
                                 <td>{task.title}</td>
                                 <td>
                                     <div>
