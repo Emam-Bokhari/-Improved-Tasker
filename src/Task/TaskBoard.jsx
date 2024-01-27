@@ -13,12 +13,23 @@ const TaskBoard = () => {
         description: "Connect an existing API to a third-party database using secure methods and handle data exchange efficiently.",
         tags: ['Web', 'Python', 'Api'],
         priority: "High",
-        isFavourite: true
+        isFavourite: false
     }
 
     const [tasks, setTasks] = useState([defaultTask])
 
     const [showAddTaskModal, setShowAddTaskModal] = useState(false)
+
+    // add new task
+    function handleAddNewTask(newTask){
+        // console.log(newTask)
+
+        setTasks([
+            ...tasks,
+            newTask
+        ])
+        setShowAddTaskModal(false)
+    }
 
 
 
@@ -27,7 +38,9 @@ const TaskBoard = () => {
 
             <TaskContext.Provider value={{tasks,setTasks}}>
 
-                {showAddTaskModal && <AddTaskModal onCancelAddTaskModal={() => setShowAddTaskModal(false)} />}
+                {showAddTaskModal && <AddTaskModal
+                onAddTask={handleAddNewTask}
+                 onCancelAddTaskModal={() => setShowAddTaskModal(false)} />}
                 <section className="mb-20" id="tasks">
 
                     <div className="container">

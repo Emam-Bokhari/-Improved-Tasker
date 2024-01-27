@@ -1,6 +1,33 @@
-import { Fragment } from "react"
+import { Fragment, useState } from "react"
 
-const AddTaskModal = ({onCancelAddTaskModal}) => {
+const AddTaskModal = ({ onCancelAddTaskModal,onAddTask }) => {
+
+    const [task, setTask] = useState({
+        id: crypto.randomUUID(),
+        title: "",
+        description: "",
+        tags: [],
+        priority: "",
+        isFavourite: false
+    })
+
+    function handleChange(event){
+        const name=event.target.name 
+        let value=event.target.value 
+        // console.log(name,value)
+
+        if(name==='tags'){
+            value=value.split(',')
+        }
+
+        setTask({
+            ...task,
+            [name]:value
+        })
+    }
+
+    // console.log(task)
+
     return (
         <Fragment >
 
@@ -28,6 +55,8 @@ const AddTaskModal = ({onCancelAddTaskModal}) => {
                             type="text"
                             name="title"
                             id="title"
+                            value={task.title}
+                            onChange={handleChange}
                             required
                         />
                     </div>
@@ -39,6 +68,8 @@ const AddTaskModal = ({onCancelAddTaskModal}) => {
                             type="text"
                             name="description"
                             id="description"
+                            value={task.description}
+                            onChange={handleChange}
                             required
                         ></textarea>
                     </div>
@@ -54,6 +85,8 @@ const AddTaskModal = ({onCancelAddTaskModal}) => {
                                 type="text"
                                 name="tags"
                                 id="tags"
+                                value={task.tags}
+                                onChange={handleChange}
                                 required
                             />
                         </div>
@@ -64,6 +97,8 @@ const AddTaskModal = ({onCancelAddTaskModal}) => {
                                 className="block w-full cursor-pointer rounded-md bg-[#2D323F] px-3 py-2.5"
                                 name="priority"
                                 id="priority"
+                                value={task.priority}
+                                onChange={handleChange}
                                 required
                             >
                                 <option value="">Select Priority</option>
@@ -78,6 +113,7 @@ const AddTaskModal = ({onCancelAddTaskModal}) => {
                 <div className="mt-16 flex justify-center lg:mt-20 md:gap-5 lg:gap-10">
 
                     <button
+                    onClick={()=>onAddTask(task)}
                         type="submit"
                         className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
                     >
@@ -85,7 +121,7 @@ const AddTaskModal = ({onCancelAddTaskModal}) => {
                     </button>
 
                     <button
-                    onClick={onCancelAddTaskModal}
+                        onClick={onCancelAddTaskModal}
                         type="submit"
                         className="rounded bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80"
                     >

@@ -4,7 +4,7 @@ import { TaskContext } from "../context"
 
 const TaskList = () => {
     const { tasks } = useContext(TaskContext)
-    console.log(tasks)
+    // console.log(tasks)
     return (
         <Fragment>
 
@@ -40,7 +40,7 @@ const TaskList = () => {
                                 <td>
                                     <ul className="flex justify-center gap-1.5 flex-wrap">
                                     {task.tags.map((tag)=>(
-                                        <li>
+                                        <li key={tag}>
                                             <span
                                                 className="inline-block h-5 whitespace-nowrap rounded-[45px] bg-[#00D991A1] px-2.5 text-sm capitalize text-[#F4F5F6]">{tag}</span>
                                         </li>
