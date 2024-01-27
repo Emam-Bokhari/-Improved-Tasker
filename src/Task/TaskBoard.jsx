@@ -11,17 +11,7 @@ import { initialState, taskReducer } from "../reducers/taskReducer"
 
 const TaskBoard = () => {
 
-    // const defaultTask = {
-    //     id: crypto.randomUUID(),
-    //     title: "Integration API",
-    //     description: "Connect an existing API to a third-party database using secure methods and handle data exchange efficiently.",
-    //     tags: ['Web', 'Python', 'Api'],
-    //     priority: "High",
-    //     isFavourite: false
-    // }
-
     const [state, dispatch] = useReducer(taskReducer, initialState)
-
 
     const [showAddTaskModal, setShowAddTaskModal] = useState(false)
 
@@ -31,108 +21,80 @@ const TaskBoard = () => {
 
     // add new task and edit task
     function handleAddNewTask(newTask, isAdd) {
-        // console.log(newTask)
         if (isAdd) {
             dispatch({
-                type:"Add_Task",
-                payload:newTask 
+                type: "Add_Task",
+                payload: newTask
             })
             toast.success('Task create successfully')
         } else {
-
             dispatch({
-                type:"Edit_Task",
-                payload:newTask 
+                type: "Edit_Task",
+                payload: newTask
             })
             toast.success('Task edit successfully')
         }
-
-
         setShowAddTaskModal(false)
-
     }
 
     // edit task
     function handleEditTask(task) {
-        // console.log(task)
         setTaskToUpdate(task)
         setShowAddTaskModal(true)
-
     }
 
+    // close modal
     function handleCloseModal() {
         setShowAddTaskModal(false)
         setTaskToUpdate(null)
     }
 
-
-
     // search task
     function handleSearch(searchTerm) {
-
         dispatch({
-            type:"Search_Task",
-            payload:searchTerm 
+            type: "Search_Task",
+            payload: searchTerm
         })
-
     }
 
     // delete a task
     function handleDeleteTask(taskId) {
-        // console.log(taskId)
-
         const confirmDelete = window.confirm("Are you sure you want to delete this task?")
-
         if (confirmDelete) {
             dispatch({
-                type:"Delete_Task",
-                payload:taskId 
+                type: "Delete_Task",
+                payload: taskId
             })
-
             toast.success("Successfully delete this task")
         }
-
-
     }
 
     // delete all task
     function handleDeleteAllTask() {
-
         const confirmDeleteAll = window.confirm("Are you sure you want to delete all tasks?")
-
         if (confirmDeleteAll) {
             dispatch({
-                type:"Delete_All_Tasks"
+                type: "Delete_All_Tasks"
             })
-
             toast.success("Successfully delete all tasks!")
         }
-
     }
 
     // favourite and unfavourite
     function handleFavourite(taskId) {
-        // console.log(taskId)
-
         dispatch({
-            type:"Favourite_Task",
-            payload:taskId 
+            type: "Favourite_Task",
+            payload: taskId
         })
-
     }
-
-
-
-
 
     return (
         <Fragment>
 
             <TaskContext.Provider value={{
-                taskToUpdate, handleDeleteTask,
-                handleEditTask, handleFavourite, handleSearch,
-                handleDeleteAllTask, handleAddNewTask, handleCloseModal,
-                state,dispatch
+                taskToUpdate, handleDeleteTask, handleEditTask,
+                handleFavourite, handleSearch, handleDeleteAllTask,
+                handleAddNewTask, handleCloseModal, state, dispatch
             }}>
 
                 {showAddTaskModal && <AddTaskModal />}

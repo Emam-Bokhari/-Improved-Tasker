@@ -5,7 +5,7 @@ const initialState = {
         description: "Connect an existing API to a third-party database using secure methods and handle data exchange efficiently.",
         tags: ['Web', 'Python', 'Api'],
         priority: "High",
-        isFavourite: false
+        isFavourite: true
     }]
 }
 
