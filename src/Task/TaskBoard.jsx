@@ -13,7 +13,7 @@ const TaskBoard = () => {
     return (
         <Fragment>
 
-            {showAddTaskModal && <AddTaskModal />}
+            {showAddTaskModal && <AddTaskModal onCancelAddTaskModal={()=>setShowAddTaskModal(false)} />}
             <section className="mb-20" id="tasks">
 
                 <div className="container">

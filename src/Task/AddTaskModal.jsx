@@ -1,6 +1,6 @@
 import { Fragment } from "react"
 
-const AddTaskModal = () => {
+const AddTaskModal = ({onCancelAddTaskModal}) => {
     return (
         <Fragment >
 
@@ -85,10 +85,11 @@ const AddTaskModal = () => {
                     </button>
 
                     <button
+                    onClick={onCancelAddTaskModal}
                         type="submit"
                         className="rounded bg-red-600 px-4 py-2 text-white transition-all hover:opacity-80"
                     >
-                        Delete Task
+                        Cancel
                     </button>
 
 
