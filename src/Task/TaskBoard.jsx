@@ -48,6 +48,21 @@ const TaskBoard = () => {
 
     }
 
+    // delete task
+    function handleDeleteTask(taskId) {
+        // console.log(taskId)
+
+        const confirmDelete = window.confirm("Are you sure you want to delete this task?")
+
+        if (confirmDelete) {
+            const afterDeleteTask = tasks.filter(task => task.id !== taskId)
+
+            setTasks(afterDeleteTask)
+        }
+
+
+    }
+
 
 
     return (
@@ -78,7 +93,7 @@ const TaskBoard = () => {
                             {/* Tasklist */}
                             {tasks.length > 0
                                 ?
-                                <TaskList />
+                                <TaskList onDeleteTask={handleDeleteTask} />
                                 :
                                 <EmptyTask />}
 
